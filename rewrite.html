@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>tester page</title>
+    <!--
+    //  using charAt & substr, replace these string methods:
+    // concat
+    // endswith
+    // includes
+    // indexOf
+    // toUpperCase
+    // and these array methods:
+    // push
+    // concat
+    // join
+    -->
+    <script type="text/javascript">
+
+    function myConcat() {
+      var myReturnString = "";
+      for (i=0; i < arguments.length; i++) {
+        myReturnString = myReturnString + arguments[i];
+      }
+      return myReturnString;
+    }
+    console.log("testing concatenation: " + myConcat("abc", "def", "ghi"));
+
+    function myEndsWith(myStr, myCompareStr) {
+      var myStart = myStr.length - myCompareStr.length;
+      var myStop = myStr.length;
+      var myTest = (myStr.substr(myStart, myStop) == myCompareStr);
+      return myTest;
+    }
+    var x = "Wednesday";
+    var y = "day";
+    console.log("testing endsWith on : " + x + " and " + y + " returns: " + myEndsWith(x, y));
+    var x = "Wednesday";
+    var y = "ddd";
+    console.log("testing endsWith on : " + x + " and " + y + " returns: " + myEndsWith(x, y));
+
+    function myIncludes(myStr, myCompareStr) {
+      var myStrLen = myStr.length;
+      var myCompLen = myCompareStr.length
+      //console.log("myStr length: " + myStrLen + " myCompareStr length: " + myCompLen);
+      //console.log("looking for " + myCompareStr + " at the end of " + myStr);
+      var myTest = myEndsWith(myStr, myCompareStr);
+      if (myTest) {
+        return myTest; // found value, done
+      } else {
+        //console.log("substring test : " + myStr.substr(0, myStrLen-1));
+        if (myStrLen >= myCompLen) {
+          return myIncludes(myStr.substr(0, (myStrLen-1)), myCompareStr); // check again, one shorter
+        } else {
+          return false; // less than length of comparison str, so wasn't found
+        }
+      }
+    }
+    var x = "Wednesday";
+    var y = "dn";
+    console.log("testing includes on : " + x + " and " + y + " returns: " + myIncludes(x, y));
+    var x = "Wednesday";
+    var y = "nnn";
+    console.log("testing includes on : " + x + " and " + y + " returns: " + myIncludes(x, y));
+
+    function myBeginsWith(myStr, myCompareStr) {
+      var myStop = myCompareStr.length;
+      var myTest = (myStr.substr(0, myStop) == myCompareStr);
+      return myTest;
+    }
+    var x = "Wednesday";
+    var y = "Wed";
+    console.log("testing Begins With on : " + x + " and " + y + " returns: " + myBeginsWith(x, y));
+    var x = "Wednesday";
+    var y = "ddd";
+    console.log("testing Begins With on : " + x + " and " + y + " returns: " + myBeginsWith(x, y));
+
+    function myIndexOf(myStr, myCompareStr) {
+      var myStrLen = myStr.length;
+      var myCompLen = myCompareStr.length;
+      var myTest = -1;
+       for (i=0; i < myStrLen; i++) {
+         var loopStr = myStr.substr(i,myStrLen);
+           if (myBeginsWith(loopStr, myCompareStr)) {
+             myTest = i;
+             return myTest;
+           } // end if
+       } // end for
+      return myTest;
+    } // end myIndexOf
+
+    var x = "Wednesday";
+    var y = "dn";
+    console.log("testing myIndexOf on : " + x + " and " + y + " returns: " + myIndexOf(x, y));
+    var x = "Wednesday";
+    var y = "nnn";
+    console.log("testing myIndexOf on : " + x + " and " + y + " returns: " + myIndexOf(x, y));
+
+function myToUpperCase (myStr) {
+       var upperCaseStr = "";
+   for (i=0; i < myStr.length; i++) {
+     var currChar = myStr.charCodeAt(i);
+     //console.log(currChar);
+      if ((currChar > 96) && (currChar < 123)) {
+        currChar = currChar - 32;
+      } // end if to test for lower case
+    upperCaseStr = upperCaseStr + String.fromCharCode(currChar);
+     //console.log(String.fromCharCode(currChar));
+  //   console.log("char at position " + i " : " + myStr.charAt(i));
+} // end for loop that traverses the String
+  return upperCaseStr;
+} // end myToUpperCase
+var x = "Wednesday";
+var y = myToUpperCase(x);
+console.log("testing myToUpperCase on : " + x + " returns: " + y);
+
+function myPush (myArray, myNewElement) {
+  myArray[myArray.length] = myNewElement;
+  return myArray;
+}
+var x = [2, 4, 6, 8];
+var y = 10;
+console.log("testing myPush on: " + x + " and new element: " + y + " returns: " + myPush(x, y));
+
+function myArrayConcat (myArray1, myArray2) {
+  var myLen1 = myArray1.length;
+  var myLen2 = myArray2.length;
+  for (i=0; i < myLen2; i++) {
+    myPush(myArray1, myArray2[i]);
+  } // end for
+  return myArray1;
+}
+var x = [1, 3, 5];
+var y = [2, 4, 6];
+console.log("testing myArrayConcat on: " + x + " and new element: " + y + " returns: " + myArrayConcat(x, y));
+
+function myJoin (myArray) {
+  var myStr = "";
+  for (i=0; i < myArray.length; i++) {
+    myStr = myStr + myArray[i] + " "; // space added to confirm it's returning correctly in output
+  } // end for
+  return myStr;
+} // end function
+var x = [1, 3, 5];
+console.log("testing myJoin on: " + x + " returns: " + myJoin(x));
+
+function greaterThan (x, y) {
+  return (x > y);
+}
+
+function myEvery (myArray, myFunction, myCompare) {
+  var myTest = false;
+  for (i = 0; i < myArray.length; i++) {
+    myTest = myFunction(myArray[i], myCompare);
+    if (!(myTest)) {
+      return myTest;
+    } // end if
+  } // end for
+  return myTest;
+} // end function
+var x = [17, 23, 14];
+var y = greaterThan;
+var z = 4;
+console.log("testing myEvery on array: " + x + " and function " + y + " against " + z + " returns: " + myEvery(x, y, z));
+var x = [17, 2, 14];
+var y = greaterThan;
+var z = 4;
+console.log("testing myEvery on array: " + x + " and function " + y + " against " + z + " returns: " + myEvery(x, y, z));
+var x = [17, 23, -14];
+var y = greaterThan;
+var z = 4;
+console.log("testing myEvery on array: " + x + " and function " + y + " against " + z + " returns: " + myEvery(x, y, z));
+
+function myFilter (myArray, myFunction, myCompare) {
+  var myResult = [];
+  for (i = 0; i < myArray.length; i++) {
+    myTest = myFunction(myArray[i], myCompare);
+    if (myTest) {
+      myPush(myResult, myArray[i]);
+    } // end if
+  } // end for
+  return myResult;
+} // end function
+var x = [17, 23, 14];
+var y = greaterThan;
+var z = 4;
+console.log("testing myFilter on array: " + x + " and function " + y + " against " + z + " returns: " + myFilter(x, y, z));
+var x = [17, 2, 14];
+var y = greaterThan;
+var z = 4;
+console.log("testing myFilter on array: " + x + " and function " + y + " against " + z + " returns: " + myFilter(x, y, z));
+var x = [17, 23, -14];
+var y = greaterThan;
+var z = 4;
+console.log("testing myFilter on array: " + x + " and function " + y + " against " + z + " returns: " + myFilter(x, y, z));
+
+function myReverse (myArray) {
+  var revArray = [];
+  for (i=0; i < myArray.length; i++) {
+    revArray[((myArray.length-1)-i)] = myArray[i];
+  } // end for
+  return revArray;
+} // end function
+var x = [17, 23, 14];
+console.log("testing myReverse on array: " + x + " returns: " + myReverse(x));
+var x = [17, 23, 14, 2, 18, 1];
+console.log("testing myReverse on array: " + x + " returns: " + myReverse(x));
+
+function myGreatest (myArray) {
+  var greatest = myArray[0];
+  for (i=0; i< myArray.length; i++) {
+    if (myArray[i] > greatest) {
+      greatest = myArray[i];
+    } // end if
+  } // end for
+  return greatest;
+} // end function
+
+function myRemainder (myArray, myVal) {
+  var myReturnArray [];
+  var myReturnCounter = 0;
+  for (i=0; i < myArray.length; i++) {
+    if (myArray[i] != myVal) {
+      myReturnArray[myReturnCounter] = myArray[i];
+      myReturnCounter++;
+    } // end if
+  } // end for
+  return myReturnArray;
+} // end function
+
+// not working yet
+function mySort (myArray) {
+  var mySortedArray = [];
+  var myHigh = myArray[0]; // give it a starting point
+  for (i = 0; i < myArray.length; i++) {
+    if (myArray[i] > myHigh) {
+      myHigh = myArray[i]; // new High found
+    } // end if
+    mySortedArray[((myArray.length-1)-i)] = myHigh;
+  } // end for
+  return mySortedArray;
+} // end function
+var x = [17, 23, 14];
+console.log("testing myGreatest on array: " + x + " returns: " + myGreatest(x));
+console.log("testing mySort on array: " + x + " returns: " + mySort(x));
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>
